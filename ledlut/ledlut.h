@@ -13,7 +13,7 @@ That needs v(N+1)-v(N)>1 for begin values, respect to integer round up:
 v(N) = ((N+n)/(max+n))^2 /step
 
 
-Proper LUTOFFSET for INMAX/OUTBITS resolution with LUTWARMUP<=1:
+Proper LUTOFFSET for LUTMAX/OUTBITS resolution with LUTWARMUP<=1:
 
     OUT    9 10 11 12 13 14 15 16
 IN      -------------------------
@@ -22,16 +22,16 @@ IN      -------------------------
 */
 
 
-#ifndef INMAX
-#define INMAX 254 //suitable for doubled 127-based midi events
+#ifndef LUTMAX
+#define LUTMAX 254 //suitable for doubled 127-based midi events
 #endif
 
-#ifndef OUTBITS
-#define OUTBITS 11
+#ifndef LUTBITS
+#define LUTBITS 11
 #endif
 
 #ifndef LUTOFFSET
-#define LUTOFFSET 11 //pick for particular INMAX and OUTBITS change
+#define LUTOFFSET 11 //pick for particular LUTMAX and LUTBITS change
 #endif
 
 #ifndef LUTWARMUP
@@ -45,18 +45,18 @@ IN      -------------------------
 
 //return adjusted value with 0-offset
 float lutUp(float v, int offset=LUTOFFSET) {
-  float remap01Offset = float(v+offset)/float(INMAX+offset);
+  float remap01Offset = float(v+offset)/float(LUTMAX+offset);
   return remap01Offset*remap01Offset; //actual lut
 }
 
 
 //map fn:  low2 + (value - low1) * (high2 - low2) / (high1 - low1)
-float REFMAX = pow(2,OUTBITS)-1;
+float REFMAX = pow(2,LUTBITS)-1;
 float REFMIN = LUTWARMUP+LUT1TO;
 float REF1 = lutUp(1);
 float REFMAP = (REFMAX-REFMIN)/(1.-REF1);
 
 //map input 0-1 to output range, respecting 1-value remap to LUT1TO
 #define LUT_(v) REFMIN+(lutUp(v)-REF1)*REFMAP 
-#define LUT(v) v? v<INMAX? LUT_(v) :REFMAX :LUTWARMUP //guaranteed [+0,+1,.., max]
+#define LUT(v) v? v<LUTMAX? LUT_(v) :REFMAX :LUTWARMUP //guaranteed [+0,+1,.., max]
 #define LUTI(v) round(LUT(v))
