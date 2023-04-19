@@ -3,8 +3,8 @@ Ledlut is 8-bit to higher resolution gamma-corrected remap function.
 It is tuned originally for 11bit 7.8kHz output, considered ok for flickerless led,
  tested with real camera response.
 The main idea is to offset [1, 255] input range (DMX resolution)
- enough to make its values sequental at start, when gamma-corrected and mapped back
- to full output range [1,2047].
+ enough to make output values consecutive at start, when input is gamma-corrected
+ and mapped back to full output range [1,2047], so input virtually expands at start.
  That acts as if values lower than virtual offset are under PWM resolution.
 */
 
@@ -12,9 +12,14 @@ The main idea is to offset [1, 255] input range (DMX resolution)
 That needs v2>v1+step for equations: 
 v1 = ((1+n)/(255+n))^2 (/step)
 v2 = ((2+n)/(255+n))^2 (/step)
-which requires n>=11 for 1/2047 step ([4.17, 4.89, 5.67, 6.51, 7.41, 8.36, 9.38,..]
- [0,2047]-based start values), then mapped back from [v1=4.17, 2047]
- to [1.5-, 2047] for normal or [2.5-, 2047] for always warmup mode.
+
+
+Proper Offset for IN/OUT resolution with Warmup<=1:
+
+    OUT    9 10 11 12 13 14 15 16
+IN      -------------------------
+127     | 12  4  1  0  0  0  0  0
+254/255 | 95 30 11  4  1  0  0  0
 */
 
 
@@ -57,13 +62,3 @@ float REFMAP = (REFMAX-REFMIN)/(1.-REF1);
 #define LUT(v) v? v<BMAX? LUT_(v) :REFMAX :LUTWARMUP //guaranteed [+0,+1,.., max]
 #define LUTI(v) round(LUT(v))
 
-
-/*
-Table for proper Offset for IN/OUT resolution with Warmup=1, resulting in sequental start.
-
-    OUT    9 10 11 12 13 14 15 16
-IN      -------------------------
-127     | 12  4  1  0  0  0  0  0
-254/255 | 95 30 11  4  1  0  0  0
-
-*/
