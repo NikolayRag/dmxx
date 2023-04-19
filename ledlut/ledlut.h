@@ -55,6 +55,6 @@ IN      -------------------------
 #define REFMAP (float(REFMAX)-float(REFMIN))/(1.-float(REF1))
 
 //map input 0-1 to output range, respecting 1-value remap to LUT1TO
-#define LUT_(v) REFMIN+(lutUp(v)-REF1)*REFMAP 
+#define LUT_(v) max(REFMIN+(lutUp(v)-REF1)*REFMAP,LUTWARMUP) //remap and 0-clamp
 #define LUT(v) v? v<LUTMAX? LUT_(v) :REFMAX :LUTWARMUP //guaranteed [+0,+1,.., max]
 #define LUTI(v) round(LUT(v))
