@@ -15,14 +15,6 @@ v2 = ((2+n)/(255+n))^2 (/step)
 which requires n>=11 for 1/2047 step ([4.17, 4.89, 5.67, 6.51, 7.41, 8.36, 9.38,..]
  [0,2047]-based start values), then mapped back from [v1=4.17, 2047]
  to [1.5-, 2047] for normal or [2.5-, 2047] for always warmup mode.
-
-That is: 2047-(1-vLut)*c
-; c=  2047/(1-(v1-1.495/2047)) =2049.67446857
-; cW= 2047/(1-(v1-2.495/2047)) 
-; v1(n11b255) =(12/266)^2 =0.002035163
-
-For 128-based input, suitable n>=1
-; v1(n1b127)= 0.000244140625
 */
 
 
@@ -33,7 +25,7 @@ For 128-based input, suitable n>=1
 
 #define LUTOFFSET 11 //pick for particular BMAX and BIT change
 #define LUTWARMUP 0 //output offset for 0
-#define LUT1TO (float(LUTWARMUP)+1.49) //Map input 1 to. Take in account value is up to be rounded.
+#define LUT1TO 1.49 //Map input 1 to. Take in account value is up to be rounded.
 
 
 //return adjusted value with 0-offset
@@ -43,21 +35,23 @@ float lutUp(float v, int offset=LUTOFFSET) {
 }
 
 
-//fix: wrong 1-remap noticed at high offset (254in/9bitOut/110offset)
-float REFMAP = LMAXF/(1.-(lutUp(1)-LUT1TO/LMAXF));
+//map fn:  low2 + (value - low1) * (high2 - low2) / (high1 - low1)
+float REFMIN = LUTWARMUP+LUT1TO;
+float REF1 = lutUp(1);
+float REFMAP = (LMAXF-REFMIN)/(1.-REF1);
 
 //map input 0-1 to output range, respecting 1-value remap to LUT1TO
-#define LUT_(v) LMAXF-(1.-lutUp(v))*REFMAP 
-#define LUT(v) v>1? v<BMAX? LUT_(v) :LMAX :v+LUTWARMUP //guaranteed [0,1,.., max]
+#define LUT_(v) REFMIN+(lutUp(v)-REF1)*REFMAP 
+#define LUT(v) v? v<BMAX? LUT_(v) :LMAX :LUTWARMUP //guaranteed [+0,+1,.., max]
 #define LUTI(v) round(LUT(v))
 
 
 /*
 Table for proper Offset for IN/OUT resolution with Warmup=1, resulting in sequental start.
 
-    OUT 9 10 11 12 13 14 15 16
+    OUT    9 10 11 12 13 14 15 16
 IN      -------------------------
 127     | 12  4  1  0  0  0  0  0
-255(4)  |113 29 11  4  1  0  0  0
+254/255 | 95 30 11  4  1  0  0  0
 
 */
