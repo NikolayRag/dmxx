@@ -9,7 +9,7 @@ void setup() {
 
   Serial.print("lut(1) = ");
   Serial.println(lutUp(1), 8);
-  for (float i=0; i<=BMAX+1; i+=.5){
+  for (float i=0; i<=INMAX+1; i+=.5){
     Serial.print(i);
     Serial.print("\t > ");
     Serial.print(LUTI(i));
