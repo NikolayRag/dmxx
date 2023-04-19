@@ -20,8 +20,6 @@ which requires n>=11 for 1/2047 step ([4.17, 4.89, 5.67, 6.51, 7.41, 8.36, 9.38,
 
 #define BMAX 254 //suitable for doubled 127-based midi events
 #define BIT 11
-#define LMAX pow(2,BIT)-1
-#define LMAXF float(LMAX)
 
 #define LUTOFFSET 11 //pick for particular BMAX and BIT change
 #define LUTWARMUP 0 //output offset for 0
@@ -36,13 +34,14 @@ float lutUp(float v, int offset=LUTOFFSET) {
 
 
 //map fn:  low2 + (value - low1) * (high2 - low2) / (high1 - low1)
+float REFMAX = pow(2,BIT)-1;
 float REFMIN = LUTWARMUP+LUT1TO;
 float REF1 = lutUp(1);
-float REFMAP = (LMAXF-REFMIN)/(1.-REF1);
+float REFMAP = (REFMAX-REFMIN)/(1.-REF1);
 
 //map input 0-1 to output range, respecting 1-value remap to LUT1TO
 #define LUT_(v) REFMIN+(lutUp(v)-REF1)*REFMAP 
-#define LUT(v) v? v<BMAX? LUT_(v) :LMAX :LUTWARMUP //guaranteed [+0,+1,.., max]
+#define LUT(v) v? v<BMAX? LUT_(v) :REFMAX :LUTWARMUP //guaranteed [+0,+1,.., max]
 #define LUTI(v) round(LUT(v))
 
 
