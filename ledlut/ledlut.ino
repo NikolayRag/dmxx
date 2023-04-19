@@ -1,16 +1,25 @@
-//#define LUTMAX 255
+#include "ledlut.h"
+
+//#define LUTMAX 127
 //#define LUTBITS 16
 //#define LUTOFFSET 0
 //#define LUTWARMUP 1
 
-#include "ledlut.h"
+
 
 void setup() {
   Serial.begin(57600);
 
-  Serial.print("lut(1) = ");
-  Serial.println(lutUp(1), 8);
+  Serial.println(REFMAX,10);
+  Serial.println(REFMIN,10);
+  Serial.println(REF1,10);
+  Serial.println(REFMAP,10);
+  Serial.println(millis());
+
+  float sum= 0;
   for (float i=0; i<=LUTMAX+1; i+=.5){
+    sum+= LUTI(i);
+
     Serial.print(i);
     Serial.print("\t > ");
     Serial.print(LUTI(i));
@@ -18,6 +27,9 @@ void setup() {
     Serial.print(LUT(i), 8);
     Serial.print(")\n");
   }
+
+  Serial.println(sum);
+  Serial.println(float(millis()));
 }
 
 
