@@ -2,17 +2,15 @@
 Ledlut is 8-bit to higher resolution gamma-corrected remap function.
 It is tuned originally for 11bit 7.8kHz output, considered ok for flickerless led,
  tested with real camera response.
-The main idea is to offset [1, 255] input range (DMX resolution)
- enough to make output values consecutive at start, when input is gamma-corrected
- and mapped back to full output range [1,2047], so input virtually expands at start
- and acts as if values lower than virtual offset are under PWM resolution.
+The main idea is to offset [1, 255] input range (DMX resolution), which then is gamma-corrected
+ and mapped back to full output range [1,2047], so the output PWM starts with consecutive values [1,2,...]
+In other words, input virtually expands at start and acts as if values lower than virtual offset
+ are under PWM resolution.
 
-That needs v(N+1)-v(N)>step for equations: 
-v1 = ((1+n)/(max+n))^2 (/step)
-v2 = ((2+n)/(max+n))^2 (/step)
+This approach effectively utilizes lowest output PWM values, which are visually the most different.
 
-This approach effectively utilizes lowest output PWM values, which are visually
- the most different.
+That needs v(N+1)-v(N)>1 for begin values, respect to integer round up:
+v(N) = ((N+n)/(max+n))^2 /step
 
 
 Proper LUTOFFSET for INMAX/OUTBITS resolution with LUTWARMUP<=1:
