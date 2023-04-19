@@ -5,8 +5,6 @@ void setup() {
 
   Serial.print("lut(1) = ");
   Serial.println(lutUp(1), 8);
-  Serial.print("REFMAP = ");
-  Serial.println(REFMAP, 8);
   for (float i=0; i<=BMAX+1; i+=.5){
     Serial.print(i);
     Serial.print("\t > ");
