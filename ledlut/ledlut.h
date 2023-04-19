@@ -51,3 +51,13 @@ float REFMAP = LMAXF/(1.-(lutUp(1)-LUT1TO/LMAXF));
 #define LUT(v) v>1? v<BMAX? LUT_(v) :LMAX :v+LUTWARMUP //guaranteed [0,1,.., max]
 #define LUTI(v) round(LUT(v))
 
+
+/*
+Table for proper Offset for IN/OUT resolution with Warmup=1, resulting in sequental start.
+
+    OUT 9 10 11 12 13 14 15 16
+IN      -------------------------
+127     | 12  4  1  0  0  0  0  0
+255(4)  |113 29 11  4  1  0  0  0
+
+*/
