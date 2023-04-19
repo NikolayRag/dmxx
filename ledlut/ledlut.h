@@ -23,16 +23,16 @@ IN      -------------------------
 */
 
 
-#ifndef BMAX
-#define BMAX 254 //suitable for doubled 127-based midi events
+#ifndef INMAX
+#define INMAX 254 //suitable for doubled 127-based midi events
 #endif
 
-#ifndef BIT
-#define BIT 11
+#ifndef OUTBITS
+#define OUTBITS 11
 #endif
 
 #ifndef LUTOFFSET
-#define LUTOFFSET 11 //pick for particular BMAX and BIT change
+#define LUTOFFSET 11 //pick for particular INMAX and OUTBITS change
 #endif
 
 #ifndef LUTWARMUP
@@ -46,19 +46,18 @@ IN      -------------------------
 
 //return adjusted value with 0-offset
 float lutUp(float v, int offset=LUTOFFSET) {
-  float remap01Offset = float(v+offset)/float(BMAX+offset);
+  float remap01Offset = float(v+offset)/float(INMAX+offset);
   return remap01Offset*remap01Offset; //actual lut
 }
 
 
 //map fn:  low2 + (value - low1) * (high2 - low2) / (high1 - low1)
-float REFMAX = pow(2,BIT)-1;
+float REFMAX = pow(2,OUTBITS)-1;
 float REFMIN = LUTWARMUP+LUT1TO;
 float REF1 = lutUp(1);
 float REFMAP = (REFMAX-REFMIN)/(1.-REF1);
 
 //map input 0-1 to output range, respecting 1-value remap to LUT1TO
 #define LUT_(v) REFMIN+(lutUp(v)-REF1)*REFMAP 
-#define LUT(v) v? v<BMAX? LUT_(v) :REFMAX :LUTWARMUP //guaranteed [+0,+1,.., max]
+#define LUT(v) v? v<INMAX? LUT_(v) :REFMAX :LUTWARMUP //guaranteed [+0,+1,.., max]
 #define LUTI(v) round(LUT(v))
-
