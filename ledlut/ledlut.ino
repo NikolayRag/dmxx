@@ -1,3 +1,7 @@
+//#define BMAX 127
+//#define LUTOFFSET 1
+//#define LUTWARMUP 1
+
 #include "ledlut.h"
 
 void setup() {

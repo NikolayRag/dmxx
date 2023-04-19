@@ -18,12 +18,25 @@ which requires n>=11 for 1/2047 step ([4.17, 4.89, 5.67, 6.51, 7.41, 8.36, 9.38,
 */
 
 
+#ifndef BMAX
 #define BMAX 254 //suitable for doubled 127-based midi events
-#define BIT 11
+#endif
 
+#ifndef BIT
+#define BIT 11
+#endif
+
+#ifndef LUTOFFSET
 #define LUTOFFSET 11 //pick for particular BMAX and BIT change
+#endif
+
+#ifndef LUTWARMUP
 #define LUTWARMUP 0 //output offset for 0
+#endif
+
+#ifndef LUT1TO
 #define LUT1TO 1.49 //Map input 1 to. Take in account value is up to be rounded.
+#endif
 
 
 //return adjusted value with 0-offset
