@@ -33,7 +33,7 @@ For 128-based input, suitable n>=1
 
 #define LUTOFFSET 11 //pick for particular BMAX and BIT change
 #define LUTWARMUP 0 //output offset for 0
-#define LUT1TO (float(LUTWARMUP)+1.495) //Map input 1 to. Take in account value is up to be rounded.
+#define LUT1TO (float(LUTWARMUP)+1.49) //Map input 1 to. Take in account value is up to be rounded.
 
 
 //return adjusted value with 0-offset
