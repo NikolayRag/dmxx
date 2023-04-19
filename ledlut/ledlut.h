@@ -43,18 +43,16 @@ IN      -------------------------
 #endif
 
 
-//return adjusted value with 0-offset
-float lutUp(float v, int offset=LUTOFFSET) {
-  float remap01Offset = float(v+offset)/float(LUTMAX+offset);
-  return remap01Offset*remap01Offset; //actual lut
-}
+//actual lut function
+#define lutFn(v) pow(v, 2)
+#define lutUp(v) lutFn(float(v+LUTOFFSET)/float(LUTMAX+LUTOFFSET)) //offset value with applied lut
 
 
 //map fn:  low2 + (value - low1) * (high2 - low2) / (high1 - low1)
-float REFMAX = pow(2,LUTBITS)-1;
-float REFMIN = LUTWARMUP+LUT1TO;
-float REF1 = lutUp(1);
-float REFMAP = (REFMAX-REFMIN)/(1.-REF1);
+#define REFMAX pow(2,LUTBITS)-1
+#define REFMIN LUTWARMUP+LUT1TO
+#define REF1 lutUp(1)
+#define REFMAP (float(REFMAX)-float(REFMIN))/(1.-float(REF1))
 
 //map input 0-1 to output range, respecting 1-value remap to LUT1TO
 #define LUT_(v) REFMIN+(lutUp(v)-REF1)*REFMAP 
