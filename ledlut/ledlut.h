@@ -4,17 +4,18 @@ It is tuned originally for 11bit 7.8kHz output, considered ok for flickerless le
  tested with real camera response.
 The main idea is to offset [1, 255] input range (DMX resolution)
  enough to make output values consecutive at start, when input is gamma-corrected
- and mapped back to full output range [1,2047], so input virtually expands at start.
- That acts as if values lower than virtual offset are under PWM resolution.
-*/
+ and mapped back to full output range [1,2047], so input virtually expands at start
+ and acts as if values lower than virtual offset are under PWM resolution.
 
-/*
-That needs v2>v1+step for equations: 
-v1 = ((1+n)/(255+n))^2 (/step)
-v2 = ((2+n)/(255+n))^2 (/step)
+That needs v(N+1)-v(N)>step for equations: 
+v1 = ((1+n)/(max+n))^2 (/step)
+v2 = ((2+n)/(max+n))^2 (/step)
+
+This approach effectively utilizes lowest output PWM values, which are visually
+ the most different.
 
 
-Proper Offset for IN/OUT resolution with Warmup<=1:
+Proper LUTOFFSET for INMAX/OUTBITS resolution with LUTWARMUP<=1:
 
     OUT    9 10 11 12 13 14 15 16
 IN      -------------------------
