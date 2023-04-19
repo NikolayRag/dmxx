@@ -43,10 +43,11 @@ float lutUp(float v, int offset=LUTOFFSET) {
 }
 
 
+//fix: wrong 1-remap noticed at high offset (254in/9bitOut/110offset)
 float REFMAP = LMAXF/(1.-(lutUp(1)-LUT1TO/LMAXF));
 
 //map input 0-1 to output range, respecting 1-value remap to LUT1TO
 #define LUT_(v) LMAXF-(1.-lutUp(v))*REFMAP 
-#define LUT(v) v? v<BMAX? LUT_(v) :LMAX :LUTWARMUP
-#define LUTI(v) v? v<BMAX? round(LUT_(v)) :LMAX :LUTWARMUP
+#define LUT(v) v>1? v<BMAX? LUT_(v) :LMAX :v+LUTWARMUP //guaranteed [0,1,.., max]
+#define LUTI(v) round(LUT(v))
 
