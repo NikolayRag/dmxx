@@ -15,10 +15,18 @@ v(N) = ((N+n)/(max+n))^2 /step
 
 Proper LUTOFFSET for LUTMAX/OUTBITS resolution with LUTWARMUP<=1:
 
+LUTDEGREE = 2
     OUT    9 10 11 12 13 14 15 16
 IN      -------------------------
 127     | 12  4  1  0  0  0  0  0
 254/255 | 95 30 11  4  1  0  0  0
+
+
+LUTDEGREE = 2.2
+    OUT    9 10 11 12 13 14 15 16
+IN      -------------------------
+127     | 19  8  3  0  0  0  0  0
+254/255 |127 45 19  8  3  1  0  0
 */
 
 
