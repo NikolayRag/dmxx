@@ -1,4 +1,4 @@
-#include "ledlut.h"
+#include "ledlut/ledlut.h"
 
 #include <DMXSerial.h>
 #include "GyverPWM.h"
