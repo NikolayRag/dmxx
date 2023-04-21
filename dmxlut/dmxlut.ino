@@ -7,7 +7,9 @@
 #define OUT2 10
 
 #define DMXBASE 4
-//#define DMX2 //for 2nd board, 3rd channel
+#define _BOARDOFFS 0
+//#define _BOARDOFFS 2 //for 2nd board, 3rd channel
+
 
 
 //ledlut override
@@ -29,21 +31,18 @@ void setup() {
 
 
 
-#ifdef DMX2
-byte _boardOffs= 2;
-#else
-byte _boardOffs= 0;
-#endif
+
+
 
 
 long nProgress= 0;
 #define BLINKAT 100000
 
 void loop() {
-  byte inC1 = DMXSerial.read(DMXBASE+1+_boardOffs);
   PWM_set(OUT1, LUTI(inC1));
-  byte inC2 = DMXSerial.read(DMXBASE+2+_boardOffs);
   PWM_set(OUT2, LUTI(inC2)); //NC for 2nd DMX
+  byte inC1 = DMXSerial.read(DMXBASE+1+_BOARDOFFS);
+  byte inC2 = DMXSerial.read(DMXBASE+2+_BOARDOFFS);
 
 
 
