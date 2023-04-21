@@ -9,7 +9,9 @@
 #define DMXBASE 4
 //#define DMX2 //for 2nd board, 3rd channel
 
-#define LUTBITS 11
+
+//ledlut override
+//#define LUTBITS 11
 
 
 
