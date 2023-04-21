@@ -3,8 +3,9 @@
 #include <DMXSerial.h>
 #include "GyverPWM.h"
 
-#define OUT1 9
-#define OUT2 10
+
+#define CH1 9
+#define CH2 10
 
 #define DMXBASE 4
 #define _BOARDOFFS 0
@@ -23,10 +24,10 @@ void setup() {
   DMXSerial.init(DMXReceiver);
 
   
-  pinMode(OUT1, OUTPUT);
-  pinMode(OUT2, OUTPUT);
-  PWM_resolution(OUT1, LUTBITS, FAST_PWM);
-  PWM_resolution(OUT2, LUTBITS, FAST_PWM);
+  pinMode(CH1, OUTPUT);
+  pinMode(CH2, OUTPUT);
+  PWM_resolution(CH1, LUTBITS, FAST_PWM);
+  PWM_resolution(CH2, LUTBITS, FAST_PWM);
 }
 
 
@@ -39,10 +40,10 @@ long nProgress= 0;
 #define BLINKAT 100000
 
 void loop() {
-  PWM_set(OUT1, LUTI(inC1));
-  PWM_set(OUT2, LUTI(inC2)); //NC for 2nd DMX
   byte inC1 = DMXSerial.read(DMXBASE+1+_BOARDOFFS);
+  PWM_set(CH1, LUTI(inC1));
   byte inC2 = DMXSerial.read(DMXBASE+2+_BOARDOFFS);
+  PWM_set(CH2, LUTI(inC2)); //NC for 2nd DMX
 
 
 
