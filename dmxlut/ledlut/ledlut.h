@@ -27,7 +27,7 @@ IN      -------------------------
 #endif
 
 #ifndef LUTBITS
-#define LUTBITS 11
+#define LUTBITS 11 //PWM resolution
 #endif
 
 #ifndef LUTOFFSET
