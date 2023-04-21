@@ -30,6 +30,10 @@ IN      -------------------------
 #define LUTBITS 11 //PWM resolution
 #endif
 
+#ifndef LUTDEGREE
+#define LUTDEGREE 2 //degree of LUT curve
+#endif
+
 #ifndef LUTOFFSET
 #define LUTOFFSET 11 //pick for particular LUTMAX and LUTBITS change
 #endif
@@ -44,7 +48,7 @@ IN      -------------------------
 
 
 //actual lut function
-#define lutFn(v) pow(v, 2)
+#define lutFn(v) pow(v, LUTDEGREE)
 #define lutUp(v) lutFn(float(v+LUTOFFSET)/float(LUTMAX+LUTOFFSET)) //offset value with applied lut
 
 
