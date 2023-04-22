@@ -17,6 +17,8 @@
 //ledlut override
 //#define LUTBITS 11
 
+//ledlut override
+#define LUTWARMUP 1
 
 
 void setup() {
