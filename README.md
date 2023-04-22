@@ -7,8 +7,8 @@
 That makes some visual and management improvements compared to almost any regular 8bit driver:
 
 * Natural light sensing, instead of decaying illumination growth as input increases
-* Virtually eliminated visual step for 0 to 1 input values, which removes the need of perceptible warmup (0 mapped to 1)
-* todo: *Removed noticable brightness step while switching between almost every adjacent values, with filtered transition*
+* Virtually eliminated perceptible warmup (0 mapped to 1)
+* Removed noticable brightness step while switching between almost every adjacent values, with filtered transition
 * todo: *High-resolution input support*
 * todo: *Device setup over DMX itself for variety of parameters*
 
@@ -31,10 +31,10 @@ todo: *`dmxx` uses 4 (default) or 7 channels per device, which are [Control, R, 
 
 
 
-#### todo: *Filtered transitions*
+#### Filtered transitions
 
 Filtering is applied to make smooth output transition, mostly visible when switching
-between adjacent values at high light power devices.
+between adjacent values on high power light.
 
 Transition time is taken so, that switching is smooth visually but no more - 
 to leave fast switching of significant ranges available at the same time.
@@ -57,7 +57,8 @@ Controllable settings are:
 * LUT: maximum input value (254)
 * LUT: PWM resolution (11 bits)
 * LUT: power function (2.2), output gamma
-* LUT: warmup value (0), the constant added to output, making device being lit minimally all the time
+* LUT: warmup value (1), the constant added to output,
+making device being lit minimally all the time
 * LUT: virtual offset, used to tune mapping of lowest values, see table
 * LUT: button (1), effectively switch LUT on or off
 
