@@ -14,8 +14,6 @@
 
 #define FILTER .5
 
-//ledlut override
-//#define LUTBITS 11
 
 //ledlut override
 #define LUTWARMUP 1
