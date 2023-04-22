@@ -37,7 +37,7 @@ void setup() {
 
 
 long nProgress= 0;
-#define BLINKAT 100000
+#define BLINKAT 10000
 
 void loop() {
   byte inC1 = DMXSerial.read(DMXBASE+1+_BOARDOFFS);
@@ -48,11 +48,11 @@ void loop() {
 
 
 //progress blink
+  if (nProgress==10){
+    digitalWrite(LED_BUILTIN,0);
+  }
   if (nProgress==BLINKAT){
     digitalWrite(LED_BUILTIN,1);
-  }
-  if (nProgress==BLINKAT*2){
-    digitalWrite(LED_BUILTIN,0);
     nProgress= 0;
   }
   nProgress++;
