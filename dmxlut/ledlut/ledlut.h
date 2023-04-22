@@ -50,6 +50,10 @@ IN      -------------------------
 #define LUTWARMUP 0 //output offset for 0
 #endif
 
+#ifndef LUT0TOL
+#define LUT0TOL 0.1 //Warmup beyond this point, meaningful at filtering
+#endif
+
 #ifndef LUT1TO
 #define LUT1TO 1.49 //Map input 1 to. Take in account value is up to be rounded.
 #endif
@@ -68,5 +72,5 @@ IN      -------------------------
 
 //map input 0-1 to output range, respecting 1-value remap to LUT1TO
 #define LUT_(v) max(REFMIN+(lutUp(v)-REF1)*REFMAP,LUTWARMUP) //remap and 0-clamp
-#define LUT(v) v? v<LUTMAX? LUT_(v) :REFMAX :LUTWARMUP //guaranteed [+0,+1,.., max]
+#define LUT(v) v>LUT0TOL? v<LUTMAX? LUT_(v) :REFMAX :LUTWARMUP //guaranteed [+0,+1,.., max]
 #define LUTI(v) round(LUT(v))
