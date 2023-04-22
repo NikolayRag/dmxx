@@ -15,7 +15,7 @@ That makes some visual and management improvements compared to almost any regula
 
 ### Brief definitions:
 
-8bit input values are mapped to output resolution using gamma mapping, 2.2 by default.  
+8bit input values are mapped to output resolution using gamma mapping, 2 by default.  
 Default input is clamped at 254 - that makes it easy the remap of 7bit resolution input (0-127)
 with cost of 1/256 step.
 
