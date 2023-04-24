@@ -70,6 +70,7 @@ int LUTWARMUP = 0; //output offset for 0
 #define LUTOFFSET254(b) (int[]){0,0,0,0,0,0,0,0,0,95,30,11,4,1,0,0,0}[b]
 
 //actual lut function
+//  todo 1 (general, lut, feature) +0: Triange numbers lut
 #define lutTri(v) .5*(v*(v+1)) //triangle numbers lut: y=(x(x+1))/2
 #define lutFn(v) pow(v, LUTDEGREE)
 #define lutUp(v) lutFn(float(v+LUTOFFSET)/float(LUTMAX+LUTOFFSET)) //offset value with applied lut
