@@ -66,6 +66,9 @@ int LUTWARMUP = 0; //output offset for 0
 #endif
 
 
+//table for max=254 used
+#define LUTOFFSET254(b) (int[]){0,0,0,0,0,0,0,0,0,95,30,11,4,1,0,0,0}[b]
+
 //actual lut function
 #define lutFn(v) pow(v, LUTDEGREE)
 #define lutUp(v) lutFn(float(v+LUTOFFSET)/float(LUTMAX+LUTOFFSET)) //offset value with applied lut
