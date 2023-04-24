@@ -7,16 +7,13 @@
 #define CH1 9
 #define CH2 10
 
-#define DMXBASE 4
-#define _BOARDOFFS 0
-//#define _BOARDOFFS 2 //for 2nd board, 3rd channel
+int DMXBASE = 0;
+int DMX1 = 1;
+int DMX2 = 2;
 
 
-#define FILTER .5
+float FILTER = .5;
 
-
-//ledlut override
-#define LUTWARMUP 1
 
 
 void setup() {
@@ -36,13 +33,16 @@ void setup() {
 float outC1 = 0;
 float outC2 = 0;
 
+byte inC1 = 0;
+byte inC2 = 0;
+
 
 //#define BLINKAT 10000
 long nProgress= 0;
 
 void loop() {
-  byte inC1 = DMXSerial.read(DMXBASE+1+_BOARDOFFS);
-  byte inC2 = DMXSerial.read(DMXBASE+2+_BOARDOFFS);
+  inC1 = DMXSerial.read(DMX1);
+  inC2 = DMXSerial.read(DMX2);
 
   outC1 += (inC1-outC1) *FILTER;
   outC2 += (inC2-outC2) *FILTER;
