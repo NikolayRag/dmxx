@@ -30,6 +30,7 @@ IN      -------------------------
 */
 
 
+/*
 #ifndef LUTMAX
 #define LUTMAX 254 //suitable for doubled 127-based midi events
 #endif
@@ -49,6 +50,12 @@ IN      -------------------------
 #ifndef LUTWARMUP
 #define LUTWARMUP 0 //output offset for 0
 #endif
+*/
+int LUTMAX = 254; //suitable for doubled 127-based midi events
+int LUTBITS = 11; //PWM resolution
+int LUTDEGREE = 2; //degree of LUT curve
+int LUTOFFSET = 11; //pick for particular LUTMAX and LUTBITS change
+int LUTWARMUP = 0; //output offset for 0
 
 #ifndef LUT0TOL
 #define LUT0TOL 0.1 //Warmup beyond this point, meaningful at filtering
