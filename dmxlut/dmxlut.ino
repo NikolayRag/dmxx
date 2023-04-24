@@ -94,6 +94,21 @@ void setup() {
   FILTER = FILTERTABLE[!digitalRead(17) +!digitalRead(16)*2];
 
 // --- setup
+
+
+/* comment out DMXSerial to use print()
+  Serial.begin(57600);
+
+  Serial.println(DMXBASE,10);
+  Serial.println(DMX1,10);
+  Serial.println(DMX2,10);
+  Serial.println(LUTBITS,10);
+  Serial.println(LUTOFFSET,10);
+  Serial.println(LUTWARMUP,10);
+  Serial.println(FILTER,10);
+*/
+
+
   pinMode(LED_BUILTIN, OUTPUT);
 
   DMXSerial.init(DMXReceiver);
