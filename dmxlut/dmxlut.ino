@@ -20,6 +20,7 @@ dmxx setup pins:
 Setup pins affects state at reset.
 */
 
+
 #include "ledlut/ledlut.h"
 
 #include <DMXSerial.h>
@@ -40,6 +41,7 @@ float FILTER = .5;
 
 void setup() {
 // +++ setup
+
 
   pinMode(2, INPUT_PULLUP);
   pinMode(3, INPUT_PULLUP);
@@ -129,7 +131,7 @@ byte inC1 = 0;
 byte inC2 = 0;
 
 
-//#define BLINKAT 10000
+// #define BLINKAT 10000
 long nProgress= 0;
 
 void loop() {
@@ -140,7 +142,7 @@ void loop() {
   outC2 += (inC2-outC2) *FILTER;
 
   PWM_set(CH1, LUTI(outC1));
-  PWM_set(CH2, LUTI(outC2)); //NC for 2nd DMX
+  PWM_set(CH2, LUTI(outC2));
 
 
 
