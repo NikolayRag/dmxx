@@ -20,11 +20,18 @@ dmxx setup pins:
 Setup pins affects state at reset.
 */
 
+//#define TEST
+
 
 #include "ledlut/ledlut.h"
 
+
+#ifndef TEST
 #include <DMXSerial.h>
+#endif
+
 #include "GyverPWM.h"
+
 
 
 #define CH1 9
@@ -98,7 +105,8 @@ void setup() {
 // --- setup
 
 
-/* comment out DMXSerial to use print()
+
+#ifdef TEST
   Serial.begin(57600);
 
   Serial.println(DMXBASE,10);
@@ -108,12 +116,15 @@ void setup() {
   Serial.println(LUTOFFSET,10);
   Serial.println(LUTWARMUP,10);
   Serial.println(FILTER,10);
-*/
+#endif
+
 
 
   pinMode(LED_BUILTIN, OUTPUT);
 
+#ifndef TEST
   DMXSerial.init(DMXReceiver);
+#endif
 
   
   pinMode(CH1, OUTPUT);
@@ -135,8 +146,11 @@ byte inC2 = 0;
 long nProgress= 0;
 
 void loop() {
+
+#ifndef TEST
   inC1 = DMXSerial.read(DMX1);
   inC2 = DMXSerial.read(DMX2);
+#endif
 
   outC1 += (inC1-outC1) *FILTER;
   outC2 += (inC2-outC2) *FILTER;
