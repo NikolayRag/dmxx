@@ -93,7 +93,7 @@ void setup() {
   LUTWARMUP = !digitalRead(16);
 
   #define FILTERTABLE (float[]){.5, .1, .01, 1.}
-  FILTER = FILTERTABLE[!digitalRead(17) +!digitalRead(16)*2];
+  FILTER = FILTERTABLE[!digitalRead(17) +!digitalRead(18)*2];
 
 // --- setup
 
