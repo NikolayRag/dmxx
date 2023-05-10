@@ -71,6 +71,12 @@ float FILTER = .5;
 
 void setup() {
 // +++ setup
+  pinMode(LED_BUILTIN, OUTPUT);
+
+  pinMode(CH1, OUTPUT);
+  pinMode(CH2, OUTPUT);
+
+
   pinMode(SETUP_BASE_BIT1, INPUT_PULLUP);
   pinMode(SETUP_BASE_BIT2, INPUT_PULLUP);
   pinMode(SETUP_BASE_BIT3, INPUT_PULLUP);
@@ -93,6 +99,8 @@ void setup() {
 
   pinMode(SETUP_SECONDARY, INPUT_PULLUP);
 
+
+  delay(100); //remove possible interference from state switing
 
 
   DMXBASE =
@@ -151,15 +159,11 @@ void setup() {
 
 
 
-  pinMode(LED_BUILTIN, OUTPUT);
-
 #ifndef TEST
   DMXSerial.init(DMXReceiver);
 #endif
 
   
-  pinMode(CH1, OUTPUT);
-  pinMode(CH2, OUTPUT);
   PWM_resolution(CH1, LUTBITS, FAST_PWM);
   PWM_resolution(CH2, LUTBITS, FAST_PWM);
 }
