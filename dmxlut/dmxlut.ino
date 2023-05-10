@@ -76,7 +76,7 @@ void setup() {
   pinMode(CH2, OUTPUT);
 
 
-  pinMode(SETUP_BASE_BIT1, INPUT_PULLUP);
+//  pinMode(SETUP_BASE_BIT1, INPUT_PULLUP); //int0 possible interference
   pinMode(SETUP_BASE_BIT2, INPUT_PULLUP);
   pinMode(SETUP_BASE_BIT3, INPUT_PULLUP);
   pinMode(SETUP_BASE_BIT4, INPUT_PULLUP);
@@ -104,7 +104,7 @@ void setup() {
 
 
   DMXBASE =
-    !digitalRead(SETUP_BASE_BIT1) *1 +
+//    !digitalRead(SETUP_BASE_BIT1) *1 +
     !digitalRead(SETUP_BASE_BIT2) *2 +
     !digitalRead(SETUP_BASE_BIT3) *4 +
     !digitalRead(SETUP_BASE_BIT4) *8 +
