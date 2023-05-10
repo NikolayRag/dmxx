@@ -1,24 +1,47 @@
 /*
-dmxx setup pins:
-
-2-8,11,12
-  DMX base address LSb. Block of 4(7 hires) used.
-
-14,15
-  Output resolution LSb, stands for (11,12,13,16)
-
-16
-  Warmup (always minimally lit at 0)
-
-17,18
-  Filter LSb, stands for [minimal, severe, decay, none]
-
-19
-  Board primary(base+1,base+2)/secondary(base+3,base+4).
-
-
 Setup pins affects state at reset.
 */
+
+/*
+  DMX base.
+  Block of 4(7 hires) used.
+  issue: Bit 1 is always being 0 as pin 2 possibly interfere with int0
+*/
+#define SETUP_BASE_BIT1 2
+#define SETUP_BASE_BIT2 3
+#define SETUP_BASE_BIT3 4
+#define SETUP_BASE_BIT4 5
+#define SETUP_BASE_BIT5 6
+#define SETUP_BASE_BIT6 7
+#define SETUP_BASE_BIT7 8
+#define SETUP_BASE_BIT8 11
+#define SETUP_BASE_BIT9 12
+
+
+/*
+  Output resolution LSb, stands for (11,12,13,16)
+*/
+#define SETUP_RESOLUTION_BIT1 14
+#define SETUP_RESOLUTION_BIT2 15
+
+/*
+  Warmup (always minimally lit at 0)
+*/
+#define SETUP_WARMUP 16
+
+
+/*
+  Filter LSb, stands for [minimal, severe, decay, none]
+*/
+#define SETUP_FILTER_BIT1 17
+#define SETUP_FILTER_BIT2 18
+
+
+/*
+  Board primary(base+1,base+2)/secondary(base+3,base+4).
+*/
+#define SETUP_SECONDARY 19
+
 
 //#define TEST
 
@@ -48,59 +71,67 @@ float FILTER = .5;
 
 void setup() {
 // +++ setup
+  pinMode(SETUP_BASE_BIT1, INPUT_PULLUP);
+  pinMode(SETUP_BASE_BIT2, INPUT_PULLUP);
+  pinMode(SETUP_BASE_BIT3, INPUT_PULLUP);
+  pinMode(SETUP_BASE_BIT4, INPUT_PULLUP);
+  pinMode(SETUP_BASE_BIT5, INPUT_PULLUP);
+  pinMode(SETUP_BASE_BIT6, INPUT_PULLUP);
+  pinMode(SETUP_BASE_BIT7, INPUT_PULLUP);
+  pinMode(SETUP_BASE_BIT8, INPUT_PULLUP);
+  pinMode(SETUP_BASE_BIT9, INPUT_PULLUP);
 
 
-  pinMode(2, INPUT_PULLUP);
-  pinMode(3, INPUT_PULLUP);
-  pinMode(4, INPUT_PULLUP);
-  pinMode(5, INPUT_PULLUP);
-  pinMode(6, INPUT_PULLUP);
-  pinMode(7, INPUT_PULLUP);
-  pinMode(8, INPUT_PULLUP);
-  pinMode(11, INPUT_PULLUP);
-  pinMode(12, INPUT_PULLUP);
+  pinMode(SETUP_RESOLUTION_BIT1, INPUT_PULLUP);
+  pinMode(SETUP_RESOLUTION_BIT2, INPUT_PULLUP);
 
-  pinMode(19, INPUT_PULLUP);
+  pinMode(SETUP_WARMUP, INPUT_PULLUP);
 
-  pinMode(14, INPUT_PULLUP);
-  pinMode(15, INPUT_PULLUP);
+  pinMode(SETUP_FILTER_BIT1, INPUT_PULLUP);
+  pinMode(SETUP_FILTER_BIT2, INPUT_PULLUP);
 
-  pinMode(16, INPUT_PULLUP);
 
-  pinMode(17, INPUT_PULLUP);
-  pinMode(18, INPUT_PULLUP);
+  pinMode(SETUP_SECONDARY, INPUT_PULLUP);
 
 
 
   DMXBASE =
-    !digitalRead(2) +
-    !digitalRead(3) *2 +
-    !digitalRead(4) *4 +
-    !digitalRead(5) *8 +
-    !digitalRead(6) *16 +
-    !digitalRead(7) *32 +
-    !digitalRead(8) *64 +
-    !digitalRead(11) *128 +
-    !digitalRead(12) *256;
+    !digitalRead(SETUP_BASE_BIT1) *1 +
+    !digitalRead(SETUP_BASE_BIT2) *2 +
+    !digitalRead(SETUP_BASE_BIT3) *4 +
+    !digitalRead(SETUP_BASE_BIT4) *8 +
+    !digitalRead(SETUP_BASE_BIT5) *16 +
+    !digitalRead(SETUP_BASE_BIT6) *32 +
+    !digitalRead(SETUP_BASE_BIT7) *64 +
+    !digitalRead(SETUP_BASE_BIT8) *128 +
+    !digitalRead(SETUP_BASE_BIT9) *256;
 
 
   DMX1 = DMXBASE +1;
   DMX2 = DMXBASE +2;
 
-  if (!digitalRead(19)){
+  if (!digitalRead(SETUP_SECONDARY)){
     DMX1 = DMXBASE +3;
     DMX2 = DMXBASE +4;
   }
 
 
   #define LUTTABLE (int[]){11, 12, 13, 16}
-  LUTBITS = LUTTABLE[!digitalRead(14) +!digitalRead(15)*2];
+  LUTBITS = LUTTABLE[
+    !digitalRead(SETUP_RESOLUTION_BIT1) +
+    !digitalRead(SETUP_RESOLUTION_BIT2)*2
+  ];
   LUTOFFSET = LUTOFFSET254(LUTBITS);
 
-  LUTWARMUP = !digitalRead(16);
+
+  LUTWARMUP = !digitalRead(SETUP_WARMUP);
+
 
   #define FILTERTABLE (float[]){.5, .1, .01, 1.}
-  FILTER = FILTERTABLE[!digitalRead(17) +!digitalRead(18)*2];
+  FILTER = FILTERTABLE[
+    !digitalRead(SETUP_FILTER_BIT1) +
+    !digitalRead(SETUP_FILTER_BIT2)*2
+  ];
 
 // --- setup
 
