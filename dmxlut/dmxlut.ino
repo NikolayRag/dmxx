@@ -19,26 +19,27 @@ Setup pins affects state at reset.
 
 
 /*
-  Output resolution LSb, stands for (11,12,13,16)
+  Output resolution LSb, stands for (11,12,13,14,15,16)
 */
 #define SETUP_RESOLUTION_BIT1 14
 #define SETUP_RESOLUTION_BIT2 15
+#define SETUP_RESOLUTION_BIT3 16
 
 /*
   Filter LSb, stands for [minimal, severe, decay, none]
 */
-#define SETUP_FILTER_BIT1 16
-#define SETUP_FILTER_BIT2 17
+#define SETUP_FILTER_BIT1 17
+#define SETUP_FILTER_BIT2 18
 
 /*
   Warmup (always minimally lit at 0)
 */
-#define SETUP_WARMUP 18
+#define SETUP_WARMUP 19
 
 /*
   Board primary(base+1,base+2)/secondary(base+3,base+4).
 */
-#define SETUP_SECONDARY 19
+#define SETUP_SECONDARY 21
 
 
 //#define TEST
@@ -88,6 +89,7 @@ void setup() {
 
   pinMode(SETUP_RESOLUTION_BIT1, INPUT_PULLUP);
   pinMode(SETUP_RESOLUTION_BIT2, INPUT_PULLUP);
+  pinMode(SETUP_RESOLUTION_BIT3, INPUT_PULLUP);
 
   pinMode(SETUP_WARMUP, INPUT_PULLUP);
 
@@ -122,10 +124,11 @@ void setup() {
   }
 
 
-  #define LUTTABLE (int[]){11, 12, 13, 16}
+  #define LUTTABLE (int[]){11, 12, 13, 14, 15, 16, 16, 16}
   LUTBITS = LUTTABLE[
     !digitalRead(SETUP_RESOLUTION_BIT1) +
-    !digitalRead(SETUP_RESOLUTION_BIT2)*2
+    !digitalRead(SETUP_RESOLUTION_BIT2)*2 +
+    !digitalRead(SETUP_RESOLUTION_BIT3)*4
   ];
   LUTOFFSET = LUTOFFSET254(LUTBITS);
 
