@@ -63,11 +63,20 @@ int DMX1 = 1;
 int DMX2 = 2;
 
 
+float FILTERTABLE[32]; //pow(0.8, n) sequence
 float FILTER = .5;
+
+void setFilter(byte filterIdx){
+  FILTER = FILTERTABLE[filterIdx];
+}
 
 
 
 void setup() {
+  for (byte i=0; i<32; i++)
+    FILTERTABLE[i] = pow(.8, i);
+
+
 // +++ setup
   pinMode(LED_BUILTIN, OUTPUT);
 
@@ -133,11 +142,12 @@ void setup() {
   LUTWARMUP = !digitalRead(SETUP_WARMUP);
 
 
-  #define FILTERTABLE (float[]){.5, .1, .01, 1.}
-  FILTER = FILTERTABLE[
-    !digitalRead(SETUP_FILTER_BIT1) +
-    !digitalRead(SETUP_FILTER_BIT2)*2
-  ];
+  setFilter(
+    (byte[]){7, 17, 31, 0}[ //values closest to [.2, .02, .001, 1], standing to [some, noticable, sloooow, none]
+      !digitalRead(SETUP_FILTER_BIT1) +
+      !digitalRead(SETUP_FILTER_BIT2)*2
+    ]
+  );
 
 // --- setup
 
