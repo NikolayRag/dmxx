@@ -5,7 +5,7 @@ Setup pins affects state at reset.
 /*
   DMX base.
   Block of 4(7 hires) used.
-  issue: Bit 1 is always being 0 as pin 2 possibly interfere with int0
+  issue: Bit 1 is always being 0 as pin 2 interfere when linked to other board
 */
 #define SETUP_BASE_BIT1 2
 #define SETUP_BASE_BIT2 3
@@ -98,11 +98,11 @@ void setup() {
   pinMode(SETUP_SECONDARY, INPUT_PULLUP);
 
 
-  delay(100); //remove possible interference from state switing
+  delay(100); //remove possible interference from linked pins (pin2 not fixed)
 
 
   DMXBASE =
-//    !digitalRead(SETUP_BASE_BIT1) *1 +
+//    !digitalRead(SETUP_BASE_BIT1) *1 +  //int0 possible interference
     !digitalRead(SETUP_BASE_BIT2) *2 +
     !digitalRead(SETUP_BASE_BIT3) *4 +
     !digitalRead(SETUP_BASE_BIT4) *8 +
