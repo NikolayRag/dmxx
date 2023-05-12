@@ -1,0 +1,5 @@
+
+.do.cfg
+.do.state
+*.sublime-project
+*.sublime-workspace
