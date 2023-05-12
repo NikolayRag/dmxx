@@ -71,6 +71,11 @@ void setFilter(byte filterIdx){
 }
 
 
+void setResolution(byte res){
+  LUTBITS = res;
+  LUTOFFSET = LUTOFFSET254(LUTBITS);
+}
+
 
 void setup() {
   for (byte i=0; i<32; i++)
@@ -132,11 +137,11 @@ void setup() {
 
 
   #define LUTTABLE (int[]){11, 12, 13, 16}
-  LUTBITS = LUTTABLE[
+  setResolution(LUTTABLE[
     !digitalRead(SETUP_RESOLUTION_BIT1) +
     !digitalRead(SETUP_RESOLUTION_BIT2)*2
-  ];
-  LUTOFFSET = LUTOFFSET254(LUTBITS);
+    ]
+  );
 
 
   LUTWARMUP = !digitalRead(SETUP_WARMUP);
