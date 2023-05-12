@@ -171,6 +171,8 @@ void setup() {
 float outC1 = 0;
 float outC2 = 0;
 
+byte inBase = 0;
+
 byte inC1 = 0;
 byte inC2 = 0;
 
@@ -181,9 +183,17 @@ long nProgress= 0;
 void loop() {
 
 #ifndef TEST
+  inBase = DMXSerial.read(DMXBASE);
+
   inC1 = DMXSerial.read(DMX1);
   inC2 = DMXSerial.read(DMX2);
 #endif
+
+  if (inBase){ //setup
+    
+
+  }
+
 
   outC1 += (inC1-outC1) *FILTER;
   outC2 += (inC2-outC2) *FILTER;
