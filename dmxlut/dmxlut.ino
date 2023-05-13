@@ -186,6 +186,7 @@ void setup() {
 float outC1 = 0;
 float outC2 = 0;
 
+byte baseHold = 0;
 byte inBase = 0;
 
 byte inC1 = 0;
@@ -204,9 +205,10 @@ void loop() {
   inC2 = DMXSerial.read(DMX2);
 #endif
 
-  if (inBase){ //setup
     switch ((inBase & 0b11100000) >> 5){
       case 1:
+  if (inBase != baseHold){ //setup change
+    baseHold = inBase;
         break;
 
       case 2:
@@ -215,8 +217,6 @@ void loop() {
       case 3:
         break;
     }
-
-    inBase = 0;
   }
 
 
