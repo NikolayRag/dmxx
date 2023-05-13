@@ -205,10 +205,10 @@ void loop() {
   inC2 = DMXSerial.read(DMX2);
 #endif
 
-    switch ((inBase & 0b11100000) >> 5){
       case 1:
   if (inBase != baseHold){ //setup change
     baseHold = inBase;
+    switch ((inBase & 0b00000111) >> 5){
         break;
 
       case 2:
