@@ -206,13 +206,16 @@ void loop() {
   inC2 = DMXSerial.read(DMX2);
 #endif
 
-      case 1:
   if (inBase != baseHold){ //setup change
     baseHold = inBase;
 
     baseArg = (inBase & 0b11111000) >> 3;
 
     switch ((inBase & 0b00000111) >> 5){
+      case 0: //resolution
+        setResolution(
+          max( min(baseArg,16), 11)
+        );
         break;
 
       case 2:
