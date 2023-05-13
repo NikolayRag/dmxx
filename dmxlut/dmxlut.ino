@@ -187,7 +187,7 @@ float outC1 = 0;
 float outC2 = 0;
 
 byte baseHold = 0;
-byte inBase = 0;
+byte baseCurrent = 0;
 byte baseArg = 0;
 
 byte inC1 = 0;
@@ -200,18 +200,18 @@ long nProgress= 0;
 void loop() {
 
 #ifndef TEST
-  inBase = DMXSerial.read(DMXBASE);
+  baseCurrent = DMXSerial.read(DMXBASE);
 
   inC1 = DMXSerial.read(DMX1);
   inC2 = DMXSerial.read(DMX2);
 #endif
 
-  if (inBase != baseHold){ //setup change
-    baseHold = inBase;
+  if (baseCurrent != baseHold){ //setup change
+    baseHold = baseCurrent;
 
-    baseArg = (inBase & 0b11111000) >> 3;
+    baseArg = (baseCurrent & 0b11111000) >> 3;
 
-    switch ((inBase & 0b00000111) >> 5){
+    switch ((baseCurrent & 0b00000111) >> 5){
       case 0: //resolution
         setResolution(
           max( min(baseArg,16), 11)
