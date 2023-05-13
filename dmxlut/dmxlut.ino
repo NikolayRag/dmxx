@@ -218,7 +218,8 @@ void loop() {
         );
         break;
 
-      case 2:
+      case 2: //warmup
+        LUTWARMUP = baseArg;
         break;
 
       case 3:
