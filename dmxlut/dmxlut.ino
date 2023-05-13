@@ -222,7 +222,8 @@ void loop() {
         LUTWARMUP = baseArg;
         break;
 
-      case 3:
+      case 4: //filter
+        setFilter( baseArg );
         break;
     }
   }
