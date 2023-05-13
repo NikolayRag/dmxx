@@ -188,6 +188,7 @@ float outC2 = 0;
 
 byte baseHold = 0;
 byte inBase = 0;
+byte baseArg = 0;
 
 byte inC1 = 0;
 byte inC2 = 0;
@@ -208,6 +209,9 @@ void loop() {
       case 1:
   if (inBase != baseHold){ //setup change
     baseHold = inBase;
+
+    baseArg = (inBase & 0b11111000) >> 3;
+
     switch ((inBase & 0b00000111) >> 5){
         break;
 
