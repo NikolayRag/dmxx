@@ -1,11 +1,14 @@
 /*
 Setup pins affects state at reset.
+
+issues:
+  Bit 1 is always being 0 as pin 2 interfere when linked to other board.
+
 */
 
 /*
   DMX base.
   Block of 4(7 hires) used.
-  issue: Bit 1 is always being 0 as pin 2 interfere when linked to other board
 */
 #define SETUP_BASE_BIT1 2
 #define SETUP_BASE_BIT2 3
@@ -19,7 +22,7 @@ Setup pins affects state at reset.
 
 
 /*
-  Output resolution LSb, stands for (11,12,13,14,15,16)
+  Output resolution LSb, stands for (11,12,13,16)
 */
 #define SETUP_RESOLUTION_BIT1 14
 #define SETUP_RESOLUTION_BIT2 15
