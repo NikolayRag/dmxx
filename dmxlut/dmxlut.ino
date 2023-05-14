@@ -184,7 +184,7 @@ void loop() {
 
     baseArg = (baseCurrent & 0b11111000) >> 3;
 
-    switch ((baseCurrent & 0b00000111) >> 5){
+    switch (baseCurrent & 0b00000111){
       case 0: //resolution
         setResolution(
           max( min(baseArg,16), 11)
