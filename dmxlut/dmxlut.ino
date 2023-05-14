@@ -135,10 +135,10 @@ void setup() {
   }
 
 
-  #define LUTTABLE (int[]){11, 12, 13, 16}
-  setResolution(LUTTABLE[
-    !digitalRead(SETUP_RESOLUTION_BIT1) +
-    !digitalRead(SETUP_RESOLUTION_BIT2)*2
+  setResolution(
+    (int[]){11, 12, 13, 16}[
+      !digitalRead(SETUP_RESOLUTION_BIT1) +
+      !digitalRead(SETUP_RESOLUTION_BIT2)*2
     ]
   );
 
