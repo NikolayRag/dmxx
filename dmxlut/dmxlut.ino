@@ -68,6 +68,10 @@ void setFilter(byte filterIdx){
 void setResolution(byte res){
   LUTBITS = res;
   LUTOFFSET = LUTOFFSET254(LUTBITS);
+
+  //need to reset pwm range
+  PWM_resolution(CH1, LUTBITS, FAST_PWM);
+  PWM_resolution(CH2, LUTBITS, FAST_PWM);
 }
 
 
@@ -153,9 +157,6 @@ void setup() {
 
 
   DMXSerial.init(DMXReceiver);
-  
-  PWM_resolution(CH1, LUTBITS, FAST_PWM);
-  PWM_resolution(CH2, LUTBITS, FAST_PWM);
 }
 
 
