@@ -41,15 +41,9 @@ Setup pins affects state at reset.
 #define SETUP_SECONDARY 19
 
 
-//#define TEST
-
-
 #include "ledlut/ledlut.h"
 
-
-#ifndef TEST
 #include <DMXSerial.h>
-#endif
 
 #include "GyverPWM.h"
 
@@ -158,24 +152,7 @@ void setup() {
 
 
 
-#ifdef TEST
-  Serial.begin(57600);
-
-  Serial.println(DMXBASE,10);
-  Serial.println(DMX1,10);
-  Serial.println(DMX2,10);
-  Serial.println(LUTBITS,10);
-  Serial.println(LUTOFFSET,10);
-  Serial.println(LUTWARMUP,10);
-  Serial.println(FILTER,10);
-#endif
-
-
-
-#ifndef TEST
   DMXSerial.init(DMXReceiver);
-#endif
-
   
   PWM_resolution(CH1, LUTBITS, FAST_PWM);
   PWM_resolution(CH2, LUTBITS, FAST_PWM);
@@ -198,13 +175,9 @@ byte inC2 = 0;
 long nProgress= 0;
 
 void loop() {
-
-#ifndef TEST
   baseCurrent = DMXSerial.read(DMXBASE);
-
   inC1 = DMXSerial.read(DMX1);
   inC2 = DMXSerial.read(DMX2);
-#endif
 
   if (baseCurrent != baseHold){ //setup change
     baseHold = baseCurrent;
