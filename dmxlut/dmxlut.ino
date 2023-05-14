@@ -188,9 +188,10 @@ void loop() {
 
     switch (baseCurrent & 0b00000111){
       case 0: //resolution
-        setResolution(
-          max( min(baseArg,16), 11)
-        );
+        if (baseArg)
+          setResolution(
+            max( min(baseArg,16), 11)
+          );
         break;
 
       case 2: //warmup
