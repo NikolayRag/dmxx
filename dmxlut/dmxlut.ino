@@ -113,7 +113,8 @@ void setup() {
   delay(100); //remove possible interference from linked pins (pin2 not fixed)
 
 
-  DMXBASE =
+//notice DMX address range is [1,511]
+  DMXBASE = 1 +
 //    !digitalRead(SETUP_BASE_BIT1) *1 +  //int0 possible interference
     !digitalRead(SETUP_BASE_BIT2) *2 +
     !digitalRead(SETUP_BASE_BIT3) *4 +
