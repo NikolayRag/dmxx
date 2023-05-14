@@ -182,8 +182,6 @@ void loop() {
   inC2 = DMXSerial.read(DMX2);
 
   if (baseCurrent != baseHold){ //setup change
-    baseHold = baseCurrent;
-
     baseArg = (baseCurrent & 0b11111000) >> 3;
 
     switch (baseCurrent & 0b00000111){
@@ -202,6 +200,8 @@ void loop() {
         setFilter( baseArg );
         break;
     }
+    
+    baseHold = baseCurrent;
   }
 
 
