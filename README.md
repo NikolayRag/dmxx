@@ -24,9 +24,6 @@ PWM frequence is in inverse ratio with resolution, being 7.8Khz at 11bit,
 which is ballanced solution for smooth values switching and reduced flicker,
 even when captured back on camera at relatively short shutter (1/1000).
 
-Issue: Noticable steps still will be visible when brightness is changed at low values with very smooth filtering
- on low resolution. Use up to 16bit resolution for that cases.
- 
 
 
 Overall LUT function is designed to maximize utilization of lowest consecutive output values: [0,1,2,..]
@@ -38,11 +35,15 @@ todo: *`dmxx` uses 4 (default) or 7 channels per device, which are [Control, R, 
 
 #### Filtered transitions
 
-Filtering is applied to make smooth output transition, mostly visible when switching
- between adjacent low values on bright emitters.
+Filtering is applied to make smooth output transition.
 
 Default transition time is taken so, that switching is smooth visually but no more - 
 to leave fast switching of significant ranges available at the same time.
+
+Issue: Noticable steps still will be visible when brightness is changed at low values with very smooth filtering
+ on low resolution. Use up to 16bit resolution for that cases.
+
+
 
 todo: *Subject to change to controllable curve*
 
