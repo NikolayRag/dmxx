@@ -170,7 +170,6 @@ float outC2 = 0;
 
 byte baseHold = 0;
 byte baseCurrent = 0;
-byte baseArg = 0;
 
 byte inC1 = 0;
 byte inC2 = 0;
@@ -179,31 +178,40 @@ byte inC2 = 0;
 // #define BLINKAT 10000
 long nProgress= 0;
 
+
+#  todo 1 (feature) +0: review setup protocol
+
+void applyCfg(byte _baseCmd, byte _baseArg) {
+    switch (_baseCmd & 0b00000111){
+      case 0: //resolution
+        if (_baseArg)
+          setResolution(
+            max( min(_baseArg,16), 11)
+          );
+        break;
+
+      case 2: //warmup
+        LUTWARMUP = _baseArg;
+        break;
+
+      case 4: //filter
+        setFilter( _baseArg );
+        break;
+    }
+}
+
+
+
 void loop() {
   baseCurrent = DMXSerial.read(DMXBASE);
   inC1 = DMXSerial.read(DMX1);
   inC2 = DMXSerial.read(DMX2);
 
-#  todo 1 (feature) +0: review setup protocol
-  if (baseCurrent != baseHold){ //setup change
-    baseArg = (baseCurrent & 0b11111000) >> 3;
-
-    switch (baseCurrent & 0b00000111){
-      case 0: //resolution
-        if (baseArg)
-          setResolution(
-            max( min(baseArg,16), 11)
-          );
-        break;
-
-      case 2: //warmup
-        LUTWARMUP = baseArg;
-        break;
-
-      case 4: //filter
-        setFilter( baseArg );
-        break;
-    }
+  if (baseCurrent != baseHold){ //config change
+    applyCfg(
+      baseCurrent & 0b00000111,
+      (baseCurrent & 0b11111000) >> 3
+    );
     
     baseHold = baseCurrent;
   }
