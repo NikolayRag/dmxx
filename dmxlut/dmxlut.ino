@@ -184,6 +184,7 @@ void loop() {
   inC1 = DMXSerial.read(DMX1);
   inC2 = DMXSerial.read(DMX2);
 
+#  todo 1 (feature) +0: review setup protocol
   if (baseCurrent != baseHold){ //setup change
     baseArg = (baseCurrent & 0b11111000) >> 3;
 
@@ -208,6 +209,7 @@ void loop() {
   }
 
 
+#  todo 2 (feature) +0: definable transition curves
   outC1 += (inC1-outC1) *FILTER;
   outC2 += (inC2-outC2) *FILTER;
 
