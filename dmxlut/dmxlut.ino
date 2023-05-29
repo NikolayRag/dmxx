@@ -179,7 +179,6 @@ byte inC2 = 0;
 long nProgress= 0;
 
 
-#  todo 1 (feature) +0: review setup protocol
 
 void applyCfg(byte _baseCmd, byte _baseArg) {
     switch (_baseCmd & 0b00000111){
@@ -207,6 +206,7 @@ void loop() {
   inC1 = DMXSerial.read(DMX1);
   inC2 = DMXSerial.read(DMX2);
 
+//  todo 1 (feature) +0: review config protocol
   if (baseCurrent != baseHold){ //config change
     applyCfg(
       baseCurrent & 0b00000111,
@@ -217,7 +217,7 @@ void loop() {
   }
 
 
-#  todo 2 (feature) +0: definable transition curves
+//  todo 2 (feature) +0: definable transition curves
   outC1 += (inC1-outC1) *FILTER;
   outC2 += (inC2-outC2) *FILTER;
 
