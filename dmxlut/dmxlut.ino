@@ -181,7 +181,7 @@ long nProgress= 0;
 
 
 void applyCfg(byte _baseCmd, byte _baseArg) {
-    switch (_baseCmd & 0b00000111){
+    switch (_baseCmd){
       case 0: //resolution
         if (_baseArg)
           setResolution(
