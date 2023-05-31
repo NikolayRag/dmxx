@@ -16,7 +16,7 @@ That makes some visual and management improvements compared to almost any regula
 ### Brief definitions:
 
 8bit input values are mapped to output resolution using gamma mapping, 2 by default.  
-Default input is clamped at 254 - that makes it easy the remap of 7bit resolution input (0-127)
+By default input is clamped at 254 - that makes it easy the remap of 7bit resolution input (0-127)
 with cost of topmost 1/256 step.
 
 Default output resolution is 11bit depth, at maximum of 16.  
@@ -60,21 +60,20 @@ This gives ability to switch filtering and LUT off, to control output directly.
 
 `dmxx` is accepting configuration values on root (+0) DMX channel.
 
-V1 protocol:  
-Byte recieved is set of [vvvvvccc] bits, where ccc is MSB command and vvvvv is MSB argument.
+Protocol (v1):  
+Byte recieved is set of [vvvvvccc] MSB bits, with [ccc] Command and [vvvvv] Argument.
 
 
-Controllable settings and their defaults are, for [ccc]:
+Controllable settings and their defaults are, by Command:
 
-000: PWM resolution (11 bits). Argument stands for bits value, clamped by [11,16]
--* LUT: maximum input value (254)
--* LUT: power function (2), output gamma
-010: LUT warmup value (0), the constant added to output,
-making device being lit minimally all the time. Argument is offset, most usable for 0 and 1
--* LUT: virtual offset, used to tune mapping of lowest values, see table
--* LUT: button (1), effectively switch LUT on or off
+*2: LUT resolution, warmup and clip. Argument is [bbbwc] where
+** [bbb]: Bits, 0-7 stand for [11,12,13,14,15,16,16,16]
+** [w]: LUT warmup switch, making device being lit minimally all the time
+** [c]: LUT clamp, maximum input value is set to 254 instead
 
-100: Filter index from table of transition factors. Argument is from 0 for instant switch to 31 for visually unnoticable gradient
+*2: Mode. Argument is one of: 
+** 0 (default): Lowres with LUT, 1 DMX channel per output
+** 1: Lowres without LUT, 1 DMX channel per output; 
+** 2: Hires without LUT, 2 DMX channels MSB per output; direct in-to-out mapping
 
--* Hires: mode (0), for 1/2 DMX channels (input bytes) per output
-
+*4: Filter index from table of transition factors. Argument is from 0 for instant switch to 31 for visually unnoticable gradient
