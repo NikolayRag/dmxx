@@ -66,14 +66,16 @@ Byte recieved is set of [vvvvvccc] MSB bits, with [ccc] Command and [vvvvv] Argu
 
 Controllable settings and their defaults are, by Command:
 
-*2: LUT resolution, warmup and clip. Argument is [bbbwc] where
-** [bbb]: Bits, 0-7 stand for [11,12,13,14,15,16,16,16]
-** [w]: LUT warmup switch, making device being lit minimally all the time
-** [c]: LUT clamp, maximum input value is set to 254 instead
+* 0: Mode. Argument is one of: 
+  * 0 (default): Lowres with LUT, 1 DMX channel per output
+  * 1: Lowres without LUT, 1 DMX channel per output, most like general 8bit PWM with maximum frequency 
+  * 2: Hires without LUT, 2 DMX channels MSB per output; direct in-to-out mapping
 
-*2: Mode. Argument is one of: 
-** 0 (default): Lowres with LUT, 1 DMX channel per output
-** 1: Lowres without LUT, 1 DMX channel per output; 
-** 2: Hires without LUT, 2 DMX channels MSB per output; direct in-to-out mapping
+* 2: LUT resolution, warmup and clip. Argument is [bbbwc], where
+  * [bbb]: Bits, 0-7 stand for [11,12,13,14,15,16,16,16]
+  * [w]: LUT warmup switch, making device being lit minimally all the time
+  * [c]: LUT clamp, maximum input value is set to 254 instead
 
-*4: Filter index from table of transition factors. Argument is from 0 for instant switch to 31 for visually unnoticable gradient
+* 4: Filter index from table of transition factors. Argument is [fffcc], where
+  * [fff] is a filter values table index, from 0 for instant switch to 7 for visually unnoticable gradient
+  * [cc] *reserved for curve type*
