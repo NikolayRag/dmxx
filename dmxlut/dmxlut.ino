@@ -182,15 +182,17 @@ long nProgress= 0;
 
 void applyCfg(byte _baseCmd, byte _baseArg) {
     switch (_baseCmd){
-      case 0: //resolution
-        if (_baseArg)
-          setResolution(
-            max( min(_baseArg,16), 11)
-          );
+      case 0: //mode
         break;
 
-      case 2: //warmup
-        LUTWARMUP = _baseArg;
+      case 2: //resolution
+        byte resI = (_baseArg & 0b00011100) >> 2;
+        setResolution(
+          (byte[]){11, 12, 13, 14, 15, 16,16,16}[resI]
+        );
+
+        LUTWARMUP = (_baseArg & 0b00000010) >> 1;
+
         break;
 
       case 4: //filter
