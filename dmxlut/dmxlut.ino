@@ -139,7 +139,7 @@ void setup() {
 
 
   setResolution(
-    (int[]){11, 12, 13, 16}[
+    (byte[]){11, 12, 13, 16}[
       !digitalRead(SETUP_RESOLUTION_BIT1) +
       !digitalRead(SETUP_RESOLUTION_BIT2)*2
     ]
