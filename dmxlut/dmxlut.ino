@@ -183,9 +183,16 @@ long nProgress= 0;
 void applyCfg(byte _baseCmd, byte _baseArg) {
     switch (_baseCmd){
       case 0: //mode
+//  todo 3 (feature) +0: modes
+//  * 0 (default): Lowres [0-254] with LUT, 1 DMX channel per output
+//  * 1  Lowres [0-255] with LUT, 1 DMX channel per output
+//  * 2: Lowres without LUT, most like general 8bit but with filtering
+//  * 4: Hires without LUT, 2 DMX channels MSB per output; In-to-out is mapped with respect to PWM resolution
         break;
 
       case 2: //resolution
+//  * [bbb]: PWM resolution, 0-7 stand for [11,12,13,14,15,16,16,16] bits
+//  * [w]: LUT warmup switch, making device being lit minimally all the time
         byte resI = (_baseArg & 0b00011100) >> 2;
         setResolution(
           (byte[]){11, 12, 13, 14, 15, 16,16,16}[resI]
@@ -196,6 +203,9 @@ void applyCfg(byte _baseCmd, byte _baseArg) {
         break;
 
       case 4: //filter
+//  * [fff] is a filter values table index, from 0 for instant switch to 7 for visually unnoticable gradient
+//  todo 4 (feature) +0: filter types/curves
+//  * [cc] *reserved for curve type*
         setFilter( (_baseArg & 0b00011100) >> 2 );
         break;
     }
