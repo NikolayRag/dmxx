@@ -60,7 +60,7 @@ int DMX1 = 1;
 int DMX2 = 2;
 
 
-float FILTERTABLE[32]; //pow(0.667, n) sequence
+float FILTERTABLE[8]; //pow(0.667, n*4) sequence
 float FILTER = 1.;
 
 void setFilter(byte filterIdx){
@@ -79,8 +79,8 @@ void setResolution(byte res){
 
 
 void setup() {
-  for (byte i=0; i<32; i++)
-    FILTERTABLE[i] = pow(.667, i);
+  for (byte i=0; i<8; i++)
+    FILTERTABLE[i] = pow(.667, i*4);
 
 
 // +++ setup
@@ -150,7 +150,7 @@ void setup() {
 
 
   setFilter(
-    (byte[]){6, 16, 31, 0}[ //standing to [some, noticable, sloooow, none]
+    (byte[]){2, 5, 7, 0}[ //standing to [some, noticable, sloooow, none]
       !digitalRead(SETUP_FILTER_BIT1) +
       !digitalRead(SETUP_FILTER_BIT2)*2
     ]
@@ -194,7 +194,7 @@ void applyCfg(byte _baseCmd, byte _baseArg) {
         break;
 
       case 4: //filter
-        setFilter( _baseArg );
+        setFilter( (_baseArg & 0b00011100) >> 2 );
         break;
     }
 }
