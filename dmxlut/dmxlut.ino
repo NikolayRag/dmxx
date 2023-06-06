@@ -175,7 +175,7 @@ byte inC1 = 0;
 byte inC2 = 0;
 
 
-// #define BLINKAT 10000
+#define BLINKAT 1000
 long nProgress= 0;
 
 
