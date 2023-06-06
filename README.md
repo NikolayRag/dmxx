@@ -19,7 +19,7 @@ That makes some visual and management improvements compared to almost any regula
 By default input is clamped at 254 - that makes it easy the remap of 7bit resolution input (0-127)
 with cost of topmost 1/256 step.
 
-Default output resolution is 11bit depth, at maximum of 16.  
+Default output resolution is 11-bit depth, at maximum of 16.  
 PWM frequence is in inverse ratio with resolution, being 7.8Khz at 11bit,
 which is ballanced solution for smooth values switching and reduced flicker,
 even when captured back on camera at relatively short shutter (1/1000).
@@ -78,5 +78,5 @@ Controllable settings and their defaults are, by Command:
   * [x]: *reserved*
 
 * 4: Filter index from table of transition factors. Argument is [fffcc], where
-  * [fff] is a filter values table index, from 0 for instant switch to 7 for visually unnoticable gradient
-  * [cc] *reserved for curve type*
+  * [fff]: filter values table index, from 0 for instant switch to 7 for visually unnoticable gradient
+  * [cc]: *reserved for curve type*
