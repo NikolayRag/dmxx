@@ -181,7 +181,7 @@ long nProgress= 0;
 
 
 void applyCfg(byte _baseCmd, byte _baseArg) {
-
+//issue: switch didnt react on case 4
       if (_baseCmd==0) { //mode
 //  todo 3 (feature) +0: modes
 //  * 0 (default): Lowres [0-254] with LUT, 1 DMX channel per output
@@ -227,7 +227,6 @@ void loop() {
   }
 
 
-//  todo 2 (feature) +0: definable transition curves
   outC1 += (inC1-outC1) *FILTER;
   outC2 += (inC2-outC2) *FILTER;
 
