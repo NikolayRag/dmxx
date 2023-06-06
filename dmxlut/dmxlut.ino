@@ -60,7 +60,7 @@ int DMX1 = 1;
 int DMX2 = 2;
 
 
-float FILTERTABLE[8]; //pow(0.667, n*4) sequence
+float FILTERTABLE[8]; //exponential sequence
 float FILTER = 1.;
 
 void setFilter(byte filterIdx){
@@ -80,7 +80,7 @@ void setResolution(byte res){
 
 void setup() {
   for (byte i=0; i<8; i++)
-    FILTERTABLE[i] = pow(.667, i*4);
+    FILTERTABLE[i] = pow(.75, i*4+6);
 
 
 // +++ setup
@@ -150,7 +150,7 @@ void setup() {
 
 
   setFilter(
-    (byte[]){2, 5, 7, 0}[ //standing to [some, noticable, sloooow, none]
+    (byte[]){2, 4, 6, 0}[ //standing to [some, noticable, sloooow, none]
       !digitalRead(SETUP_FILTER_BIT1) +
       !digitalRead(SETUP_FILTER_BIT2)*2
     ]
