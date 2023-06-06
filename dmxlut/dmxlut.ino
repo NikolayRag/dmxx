@@ -134,7 +134,7 @@ void setup() {
 
   if (!digitalRead(SETUP_SECONDARY)){
     DMX1 = DMXBASE +3;
-    DMX2 = DMXBASE +4;
+    DMX2 = DMXBASE +3; //dummy for match board's timing
   }
 
 
