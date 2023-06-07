@@ -56,9 +56,7 @@ issues:
 #define CH2 10
 
 int DMXBASE = 0;
-int DMX1 = 1;
-int DMX2 = 2;
-
+boolean DMXSEC = false;
 
 float FILTERTABLE[8]; //exponential sequence
 float FILTER = 1.;
@@ -129,13 +127,7 @@ void setup() {
     !digitalRead(SETUP_BASE_BIT9) *256;
 
 
-  DMX1 = DMXBASE +1;
-  DMX2 = DMXBASE +2;
-
-  if (!digitalRead(SETUP_SECONDARY)){
-    DMX1 = DMXBASE +3;
-    DMX2 = DMXBASE +3; //dummy for match board's timing
-  }
+  DMXSEC = !digitalRead(SETUP_SECONDARY);
 
 
   setResolution(
@@ -212,9 +204,16 @@ void applyCfg(byte _baseCmd, byte _baseArg) {
 
 
 void loop() {
+  byte in1, in2, in3;
+
   baseCurrent = DMXSerial.read(DMXBASE);
-  inC1 = DMXSerial.read(DMX1);
-  inC2 = DMXSerial.read(DMX2);
+  in1 = DMXSerial.read(DMXBASE+1); //read all to match board's timing
+  in2 = DMXSerial.read(DMXBASE+2);
+  in3 = DMXSerial.read(DMXBASE+3);
+
+  inC1 = DMXSEC? in3 : in1;
+  inC2 = in2;
+
 
 //  todo 1 (feature) +0: review config protocol
   if (baseCurrent != baseHold){ //config change
