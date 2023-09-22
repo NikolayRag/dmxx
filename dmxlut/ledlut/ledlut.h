@@ -1,6 +1,6 @@
 /*
 Ledlut is 8-bit to higher resolution gamma-corrected remap function.
-It is tuned originally for 11bit 7.8kHz output, considered ok for flickerless led,
+It is tuned originally for 11bit 7.8kHz Arduino output, considered ok for flickerless led,
  tested with real camera response.
 The main idea is to offset [1, 255] input range (DMX resolution), which then is gamma-corrected
  and mapped back to full output range [1,2047], so the output PWM starts with consecutive values [1,2,...]
@@ -9,11 +9,12 @@ In other words, input virtually expands at start and acts as if values lower tha
 
 This approach effectively utilizes lowest output PWM values, which are visually the most different.
 
-That needs v(N+1)-v(N)>1 for begin values, respect to integer round up:
+That needs v(N+1)-v(N)>1 for lowest values, with respect of integer round up.
+:
 v(N) = ((N+n)/(max+n))^2 /step
 
 
-Proper LUTOFFSET for LUTMAX/OUTBITS resolution with LUTWARMUP<=1:
+Proper handpicked LUTOFFSET for LUTMAX/OUTBITS resolution with LUTWARMUP<=1:
 
 LUTDEGREE = 2
     OUT    9 10 11 12 13 14 15 16
@@ -22,7 +23,7 @@ IN      -------------------------
 254/255 | 95 30 11  4  1  0  0  0
 
 
-LUTDEGREE = 2.2
+LUTDEGREE = 2.2, for comparison
     OUT    9 10 11 12 13 14 15 16
 IN      -------------------------
 127     | 19  8  3  1  0  0  0  0
@@ -66,7 +67,7 @@ int LUTWARMUP = 0; //output offset for 0
 #endif
 
 
-//table for max=254 used
+//preset helper used with LUTMAX=254
 #define LUTOFFSET254(b) (int[]){0,0,0,0,0,0,0,0,0,95,30,11,4,1,0,0,0}[b]
 
 //actual lut function
@@ -83,6 +84,7 @@ int LUTWARMUP = 0; //output offset for 0
 #define REFMAP (float(REFMAX)-float(REFMIN))/(1.-float(REF1))
 
 //map input 0-1 to output range, respecting 1-value remap to LUT1TO
-#define LUT_(v) max(REFMIN+(lutUp(v)-REF1)*REFMAP,LUTWARMUP) //remap and 0-clamp
-#define LUT(v) v>LUT0TOL? v<LUTMAX? LUT_(v) :REFMAX :LUTWARMUP //guaranteed [+0,+1,.., max]
-#define LUTI(v) round(LUT(v))
+// -todo 11 (check) +0: LUT_() redundantly clamps to warmup for some reason, need check
+#define LUT_(v) max(REFMIN+(lutUp(v)-REF1)*REFMAP,LUTWARMUP) //float raw remap
+#define LUT(v) v>LUT0TOL? (v<LUTMAX? LUT_(v) :REFMAX) :LUTWARMUP //float [warmup,+1,.., max] clamped
+#define LUTI(v) round(LUT(v)) //int clamped

@@ -1,7 +1,12 @@
+/*
+Demo case.
+Given LUT settings, produces 
+
 #include "ledlut.h"
 
 //#define LUTMAX 127
 //#define LUTBITS 16
+//#define LUTDEGREE 2
 //#define LUTOFFSET 0
 //#define LUTWARMUP 1
 
